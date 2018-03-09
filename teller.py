@@ -192,3 +192,6 @@ class teller(employee):
 
 					except:
 						payment = input('\n\n    Please enter a valid payment.\n\nPayment: $')
+
+	def talk(self):
+		print("Hello! I'm {} {}. I am a teller at I.L.L. & sons.".format(self.first_name, self.last_name))

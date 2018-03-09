@@ -26,12 +26,14 @@ class manager(employee):
 				done = True
 
 	def SeeDebtsToBank(self):
-
 		total = 0
 		count = 0
 		for customer_ in person.customer_list:
 			if customer_.outstanding_balance > 0:
 				count += 1
 				total += customer_.outstanding_balance
-
 		print('\n\n    ${} is owed to the bank by {} customers.'.format(total, count))
+    
+	def talk(self):
+		print("Hello! I'm {} {}. I am a manager at I.L.L. & Sons.".format(self.first_name, self.last_name))
+

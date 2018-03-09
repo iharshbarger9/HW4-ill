@@ -46,6 +46,7 @@ class customer(person):
 
 	def __mfAccountStatus(self):
 		return_rate = r.normalvariate(1.067, 0.032)
+
 		print('\n\n    Your current mutual fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.mutual_fund_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.mutual_fund_acct_balance*return_rate, '.2f')))
 
 	def __mgfAccountStatus(self):
@@ -55,7 +56,7 @@ class customer(person):
 	def __cryptoAccountStatus(self):
 		return_rate = r.normalvariate(1.14, 0.12)
 		print('\n\n    Your current cryptocurrency account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.crypto_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.crypto_acct_balance*return_rate, '.2f')))
-
+		
 	def __str__(self):
 		return 'Customer: {}\nD.O.B: {}/{}/{}\nAddress: {}\nAccount Number: {}\nRoutingNumber: {}\nBalance: {}'.format(self.name, self.birthdate.month, self.birthdate.day, self.birthdate.year, self.address, str(self.account_number).zfill(12), self.routing_number, self.balance)
 
@@ -102,7 +103,9 @@ class customer(person):
 		print('\n\nChecking account balance: $%.2f' % self.balance)
 
 	def __CheckOutstandingBalance(self):
+
 		print('\n\nOutstanding balance: ${}'.format(format(self.outstanding_balance, '.2f')))
+
 
 
 	def atm(self):
@@ -156,4 +159,5 @@ class customer(person):
 			else:
 				choice = input('\nEnter (1):      Balance Inquiry  \n\nEnter (2):      Deposit  \n\nEnter (3):      Withdrawal  \n\nEnter (4):      Exit\n\nEntry: ')
 
-
+	def talk(self):
+		print("Hello! I'm {}".format(self.first_name))

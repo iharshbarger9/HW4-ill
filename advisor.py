@@ -1,6 +1,7 @@
 from employee import *
 import random as r
 
+
 def make_interest_rate(amount, net_worth, period):
 	'''Returns I.L.L's interest rate on a loan.'''
 	interest_rate = 1
@@ -227,6 +228,7 @@ class advisor(employee):
 					
 					return_rate = r.normalvariate(1.08, 0.05)
 
+
 					y_n = input('\n\n    Our precious metal & gem fund is really benefitting from the recent discoveries. Fund managers predict that there is about a 1 in 3 chance of earning at least 10% on your investment annually.\n\n    Want to invest in this? (yes/no): ')
 					
 					while y_n not in ['yes', 'y', 'no', 'n']:						
@@ -352,6 +354,7 @@ class advisor(employee):
 
 	def GiveAdvice(self, other):
 		print('\n    Hello, {}. I am your advisor {} {}.'.format(other.first_name, self.first_name, self.last_name))
+    
 		entry = input("\n\n     Let's discuss your financial options and goals. What would you like to discuss today?\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open or add to an investment account.\n\nEnter (3) to check your investment portfolio's performance.\n\nEnter (4) to say goodbye.\n\nEntry: ")
 
 		done = False
@@ -375,6 +378,7 @@ class advisor(employee):
 				
 				while y_n not in ['yes', 'y', 'no', 'n']:
 					y_n = input('\n    Will that be all for today? (yes/no): ')
+
 
 				if y_n.lower() in ['yes', 'y']:
 					print('\n    Nice seeing you today, {}.'.format(other.first_name))
@@ -403,7 +407,7 @@ class advisor(employee):
 				
 				while y_n not in ['yes', 'y', 'no', 'n']:
 					y_n = input('\n    Will that be all for today? (yes/no): ')
-
+          
 				if y_n.lower() in ['yes', 'y']:
 					print('\n    Nice seeing you today, {}.'.format(other.first_name))
 					done = True
@@ -417,4 +421,5 @@ class advisor(employee):
 			else:
 				entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
 				
-
+	def talk(self):
+		print("Hello! I'm {} {}. I am a Financial Advisor at I.L.L. & Sons.".format(self.first_name, self.last_name))
