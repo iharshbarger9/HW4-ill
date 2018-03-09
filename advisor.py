@@ -193,6 +193,7 @@ class advisor(employee):
 						while y_n not in ['yes', 'y', 'no', 'n']:							
 							y_n = input('\n\nConsidering other investment options? (yes/no): ')
 
+
 						if y_n in ['yes', 'y']:
 							choice = input('\n\nEnter (1) to learn about our mutual fund.\n\nEnter (2) to learn about our precious metal & gem fund.\n\nEnter (3) to learn about our cryptocurrency options.\n\nEnter (4) if you are done for today.\n\nEntry: ')
 							pass
@@ -310,5 +311,7 @@ class advisor(employee):
 				
 			else:
 				entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
-				
 
+
+	def talk(self):
+		print("Hello! I'm {} {}. I am a Financial Advisor at I.L.L. & Sons.".format(self.first_name, self.last_name))

@@ -37,5 +37,8 @@ class teller(employee):
 				print('\nGoodbye!')
 				done = True
 			else:
-				choice = input('\nEnter (1) to check balance  \n\nEnter (2) to make a deposit  \n\nEnter (3) to make a withdrawal  \n\nEnter (4) to say goodbye \n\nEntry: ')
+				choice = input('\nEnter (1) to check balance  \n\nEnter (2) to make a deposit  \n\nEnter (3) to make a withdrawal  \n\n  Enter (4) to make a payment on your outstanding balance \n\nEnter (5) to say goodbye. \n\nEntry: ')
 			print('\nHave a nice day!')
+
+	def talk(self):
+		print("Hello! I'm {} {}. I am a teller at I.L.L. & sons.".format(self.first_name, self.last_name))

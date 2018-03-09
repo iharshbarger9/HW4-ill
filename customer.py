@@ -142,4 +142,5 @@ class customer(person):
 			else:
 				choice = input('\nEnter (1):      Balance Inquiry  \n\nEnter (2):      Deposit  \n\nEnter (3):      Withdrawal  \n\nEnter (4):      Exit\n\nEntry: ')
 
-
+	def talk(self):
+		print("Hello! I'm {}".format(self.first_name))

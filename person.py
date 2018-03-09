@@ -88,3 +88,6 @@ class person():
 		self.__ssn = make_ssn()
 		print('\nSSN is on file.')
 
+	def talk(self):
+		'''Person will talk and introduce themselves'''
+		raise NotImplementedError('Talk method for subclass has not been implemented yet')
