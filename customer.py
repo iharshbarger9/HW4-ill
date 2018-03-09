@@ -22,73 +22,90 @@ class customer(person):
 		customer.acct_number_addition += r.randint(10, 50)
 		person.customer_list.append(self)
 		
-		print('\nBank account has been opened for {}.'.format(self.name))
+		print('\nChecking account has been opened for {}.'.format(self.name))
 
 		self.__pin = input('\nSet a 4-digit pin: ')
 		while len(self.__pin) != 4 or not self.__pin.isnumeric():
 			self.__pin = input('\nPlease enter a 4-digit pin: ')
 
 		deposit = input('\nWhat is the initial deposit?: $')
-	
-		while not deposit.isnumeric() or not float(deposit) > 0:
-			deposit = input('\nEnter a valid amount to deposit: $')
 
-		self.balance += float(deposit)
+		done = False
+		while not done:	
+			try:
+				deposit = float(deposit)
+				if deposit > 0:
+					self.balance += deposit
+					done = True
+				else:
+					deposit = input('\nEnter a positive amount to deposit: $')
+			except:
+				deposit = input('\nEnter a valid amount to deposit: $')
 
 		print('\nDone.\n')
 
 	def __mfAccountStatus(self):
 		return_rate = r.normalvariate(1.067, 0.032)
-		print('\n\n    Your current mutual fund account balance is ${}. Based on our estimates, with a return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.mutual_fund_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.mutual_fund_acct_balance*return_rate, '.2f')))
+
+		print('\n\n    Your current mutual fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.mutual_fund_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.mutual_fund_acct_balance*return_rate, '.2f')))
 
 	def __mgfAccountStatus(self):
 		return_rate = r.normalvariate(1.08, 0.05)
-		print('\n\n    Your current precious metal & gem fund account balance is ${}. Based on our estimates, with a return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.metal_gem_fund_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.metal_gem_fund_acct_balance*return_rate, '.2f')))
+		print('\n\n    Your current precious metal & gem fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.metal_gem_fund_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.metal_gem_fund_acct_balance*return_rate, '.2f')))
 	
 	def __cryptoAccountStatus(self):
 		return_rate = r.normalvariate(1.14, 0.12)
-		print('\n\n    Your current cryptocurrency account balance is ${}. Based on our estimates, with a return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.crypto_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.crypto_acct_balance*return_rate, '.2f')))
-
+		print('\n\n    Your current cryptocurrency account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.crypto_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.crypto_acct_balance*return_rate, '.2f')))
+		
 	def __str__(self):
 		return 'Customer: {}\nD.O.B: {}/{}/{}\nAddress: {}\nAccount Number: {}\nRoutingNumber: {}\nBalance: {}'.format(self.name, self.birthdate.month, self.birthdate.day, self.birthdate.year, self.address, str(self.account_number).zfill(12), self.routing_number, self.balance)
 
 	def __deposit(self):
-		done = False
 		deposit = input('\nAmount to deposit: $')
+		
+		done = False
 		while not done:	
-			if not deposit.isnumeric():
+			try:
+				deposit = float(deposit)
+				if deposit > 0:
+					self.balance += deposit
+					done = True
+				else:
+					deposit = input('\nEnter a positive amount to deposit: $')
+			except:
 				deposit = input('\nEnter a valid amount to deposit: $')
-			elif float(deposit) < 0:
-				deposit = input('\nEnter a positive amount to deposit: $')
-			else:
-				self.balance += float(deposit)
-				done = True
 
 		print('\nDone.\n')
 		print('\nNew balance: $%.2f' % self.balance)
 
 	def __withdrawal(self):
-		done = False
 		amount = input('\nAmount to withdraw: $')
-		while not done:	
-			if not amount.isnumeric():
-				amount = input('\nEnter a valid amount to withdraw: $')
-			elif not float(amount) > 0:
-				amount = input('\nEnter a positive amount to withdraw: $')
-			elif not float(amount) <= self.balance:
-				amount = input('\nAmount exceeds balance. Enter a valid amount to withdraw: $')
-			else:
-				self.balance -= float(amount)
-				done = True
+
+		done = False
+		while not done:
+			try:
+				amount = float(amount)
+				if 0 <= amount <= self.balance:
+					self.balance -= amount
+					done = True
+				elif amount > self.balance:
+					amount = input('\nAmount exceeds balance. Enter a valid amount to withdraw: $')
+				else:
+					amount = input('\nEnter a positive amount to withdraw: $')
+			except:
+				amount = input('\nEnter a valid, whole-dollar amount to withdraw: $')
+		
 
 		print('\nDone.\n')
 		print('\nNew balance: $%.2f' % self.balance)	
 
 	def __check_balance(self):
-		print('Balance: $%.2f' % self.balance)
+		print('\n\nChecking account balance: $%.2f' % self.balance)
 
 	def __CheckOutstandingBalance(self):
-		print('Outstanding: ${}'.format(format(self.outstanding_balance, '.2f')))
+
+		print('\n\nOutstanding balance: ${}'.format(format(self.outstanding_balance, '.2f')))
+
 
 
 	def atm(self):

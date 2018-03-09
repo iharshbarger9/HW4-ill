@@ -1,6 +1,90 @@
 from employee import *
 import random as r
 
+
+def make_interest_rate(amount, net_worth, period):
+	'''Returns I.L.L's interest rate on a loan.'''
+	interest_rate = 1
+	relative = amount / net_worth
+
+	if relative <= 0.2:
+		if net_worth >= 400000:
+			interest_rate += 3
+		elif net_worth >= 200000:
+			interest_rate += 3.2
+		elif net_worth >= 100000:
+			interest_rate += 3.25
+		else:
+			interest_rate += 3.3
+
+	elif relative <= 0.7:
+		if net_worth >= 400000:
+			interest_rate += 3.12
+		elif net_worth >= 200000:
+			interest_rate += 3.35
+		elif net_worth >= 100000:
+			interest_rate += 3.4
+		else:
+			interest_rate += 3.45
+
+	elif relative <= 1:
+		if net_worth >= 400000:
+			interest_rate += 3.5
+		elif net_worth >= 200000:
+			interest_rate += 3.7
+		elif net_worth >= 100000:
+			interest_rate += 3.75
+		else:
+			interest_rate += 3.8
+
+	elif relative <= 3:
+		if net_worth >= 400000:
+			interest_rate += 3.75
+		elif net_worth >= 200000:
+			interest_rate += 3.95
+		elif net_worth >= 100000:
+			interest_rate += 4
+		else:
+			interest_rate += 4.05
+
+	elif relative <= 5:
+		if net_worth >= 400000:
+			interest_rate += 4
+		elif net_worth >= 200000:
+			interest_rate += 4.2
+		elif net_worth >= 100000:
+			interest_rate += 4.25
+		else:
+			interest_rate += 4.3
+
+	elif relative <= 7:
+		if net_worth >= 400000:
+			interest_rate += 4.25
+		elif net_worth >= 200000:
+			interest_rate += 4.45
+		elif net_worth >= 100000:
+			interest_rate += 4.5
+		else:
+			interest_rate += 4.55
+	else:
+		if net_worth >= 400000:
+			interest_rate += 5
+		elif net_worth >= 200000:
+			interest_rate += 5.2
+		elif net_worth >= 100000:
+			interest_rate += 5.25
+		else:
+			interest_rate += 5.3
+
+	decrement = 0.312 - (0.3/50) * (period)
+
+	interest_rate -= decrement
+
+	interest_rate = round(1000 * interest_rate) / 1000
+
+	return interest_rate
+
+
 class advisor(employee):
 
 	def __init__(self):
@@ -8,28 +92,51 @@ class advisor(employee):
 		self.advisor_permissions = True
 
 	def __offer_loan(self, other):
+		
+		amount = input("\n    You've chosen a great lender in I.L.L & Sons. How much would you like to borrow? The more you borrow relative to your net worth (current account balance + investment account balance - outstanding balance), the higher the interest rate will be. Also, shorter loan terms will result in lower interest rates. \n\nAmount: $")
+		
 		done1 = False
-		amount = input("\n    You've chosen a great lender in I.L.L & Sons. How much would you like to borrow? The least amount you can borrow is $50\n\nAmount: ")
-
 		while not done1:
 			try:
 				amount = float(amount)
-				if amount >= 50:
+				if (9.99 * 10**12)>= amount >= 100:
 					done1 = True
 				else:
-					amount = input('\nHow much would you like to borrow, again? The least amount possible is $50.\n\nAmount: ')
+					if amount <= 100:
+						ending = 'The least we can lend you is $100.'
+					elif amount <= 0:
+						ending = ''
+					elif amount >= (9.99 * 10**12):
+						ending = 'It will have to be less than that!'
+					amount = input('\nHow much would you like to borrow, again? {}\n\nAmount: $'.format(ending))
 			except:
-				amount = input('\nHow much would you like to borrow, again? The least amount possible is $50.\n\nAmount: ')
+				amount = input('\nHow much would you like to borrow, again?\n\nAmount: $')
 
 
-		period = input('\n    Over how long would you like to pay back the loan?\n    We can offer 1-year, 5-year, or 25-year loans.\n\nNumber of years: ')
-		while not period.isnumeric() or period not in ['1', '5', '25']:
-			period = input('\nWe can offer 1-year, 5-year, or 25-year loans only.\n\nWhich best suits you?\nNumber of years: ')
-		period = int(period)
+		period = input('\n\n    Over how long would you like to pay back the loan?\n    We can offer loan terms between 1-year and 50 years.\n\nThe shorter the term, the lower the rate.\n\nNumber of years: ')
 
-		interest_rate = 4 + r.randint(10, 70)/100
+		done = False
+		while not done:
+			try:
+				period = int(period)
+				
+				if 1<= period <= 50:
+					done = True
+				else:
+					period = input('\nWe can offer loan terms between 1-year and 50 years.\n\nThe shorter the term, the lower the rate.\nNumber of years: ')
+			except:
+				period = input('\nWe can offer loan terms between 1-year and 50 years.\n\nThe shorter the term, the lower the rate.\nNumber of years: ')
+
+		'''Calculate interest rate'''
+		net_worth = other.balance + other.mutual_fund_acct_balance + other.metal_gem_fund_acct_balance + other.crypto_acct_balance - other.outstanding_balance
+
+		interest_rate = make_interest_rate(amount, net_worth, period)	
 
 		accept = input('\n\n{}, we can offer you a {}-year loan of ${} at an interest rate of {}%. Would you like to accept this loan? (yes/no):  '.format(other.first_name, period, format(amount, '.2f'), interest_rate))
+		
+		while accept not in ['yes', 'y', 'no', 'n']:
+			accept = input('\n\n    Accept {}-year loan of ${} at interest rate {}%? (yes/no): ')
+
 		if accept.lower() in ['yes', 'y']:
 			other.balance += amount
 			other.outstanding_balance += float(str(format((((1 + interest_rate / 100) ** period) * amount) - amount, '.2f')))
@@ -121,7 +228,8 @@ class advisor(employee):
 					
 					return_rate = r.normalvariate(1.08, 0.05)
 
-					y_n = input('\n\n    Our precious metal & gem fund is really benefitting from the recent discoveries. Fund managers predict that there is a 1 in 3 chance of earning at 10% on your investment annually.\n\n    Want to invest in this? (yes/no): ')
+
+					y_n = input('\n\n    Our precious metal & gem fund is really benefitting from the recent discoveries. Fund managers predict that there is about a 1 in 3 chance of earning at least 10% on your investment annually.\n\n    Want to invest in this? (yes/no): ')
 					
 					while y_n not in ['yes', 'y', 'no', 'n']:						
 						y_n = input('\n\nInvest? (yes/no): ')
@@ -193,7 +301,6 @@ class advisor(employee):
 						while y_n not in ['yes', 'y', 'no', 'n']:							
 							y_n = input('\n\nConsidering other investment options? (yes/no): ')
 
-
 						if y_n in ['yes', 'y']:
 							choice = input('\n\nEnter (1) to learn about our mutual fund.\n\nEnter (2) to learn about our precious metal & gem fund.\n\nEnter (3) to learn about our cryptocurrency options.\n\nEnter (4) if you are done for today.\n\nEntry: ')
 							pass
@@ -247,7 +354,8 @@ class advisor(employee):
 
 	def GiveAdvice(self, other):
 		print('\n    Hello, {}. I am your advisor {} {}.'.format(other.first_name, self.first_name, self.last_name))
-		entry = input('\n\n     I am here to advise you on your financial options and goals. What would you like to discuss today?\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open or add to an investment account.\n\nEnter (3) to check your investment portfolio\'s performance.\n\nEnter (4) to say goodbye\n\nEntry: ')
+    
+		entry = input("\n\n     Let's discuss your financial options and goals. What would you like to discuss today?\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open or add to an investment account.\n\nEnter (3) to check your investment portfolio's performance.\n\nEnter (4) to say goodbye.\n\nEntry: ")
 
 		done = False
 		while not done:
@@ -271,11 +379,12 @@ class advisor(employee):
 				while y_n not in ['yes', 'y', 'no', 'n']:
 					y_n = input('\n    Will that be all for today? (yes/no): ')
 
+
 				if y_n.lower() in ['yes', 'y']:
 					print('\n    Nice seeing you today, {}.'.format(other.first_name))
 					done = True
 				elif y_n.lower() in ['no', 'n']:
-					entry = input('\nEnter (1) to discuss a loan.\nEnter (2) to open an investment account.\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+					entry = input('\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
 
 			elif entry == '3':
 
@@ -298,7 +407,7 @@ class advisor(employee):
 				
 				while y_n not in ['yes', 'y', 'no', 'n']:
 					y_n = input('\n    Will that be all for today? (yes/no): ')
-
+          
 				if y_n.lower() in ['yes', 'y']:
 					print('\n    Nice seeing you today, {}.'.format(other.first_name))
 					done = True
@@ -311,7 +420,6 @@ class advisor(employee):
 				
 			else:
 				entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
-
-
+				
 	def talk(self):
 		print("Hello! I'm {} {}. I am a Financial Advisor at I.L.L. & Sons.".format(self.first_name, self.last_name))
