@@ -17,7 +17,7 @@ class manager(employee):
 			print('\n\n{}) Name: {}      Acct #: {}'.format(customer.customer_number + 1, customer.name, str(customer.account_number).zfill(12)))
 
 	def DeleteCustomer(self, other):
-		'''Will move a customer from the active customer list to the past customer list. This will disable their customer privileges.'''
+		'''Deletes a customer by moving him/her from the active customer list to the past customer list. This will disable their customer privileges.'''
 		if not other._customer__deleted_customer:
 			y_n = input('\n\n    Delete {}? (yes/no): '.format(other.name))
 			while y_n.lower() not in ['yes', 'y', 'no', 'n']:
@@ -30,8 +30,11 @@ class manager(employee):
 			else:
 				print('\n\nNot deleted.')
 
+		else:
+			print('\n\n    This customer is already inactive.')
+
 	def ReactivateCustomer(self, other):
-		'''Reactivates a deleted customer by moving him/her from the past customer list to the active customer list. This renables their customer privileges.'''
+		'''Reactivates a deleted customer by moving him/her from the past customer list to the active customer list. This re-enables their customer privileges.'''
 		if other._customer__deleted_customer:
 			y_n = input('\n\n    Reactivate {}\'s accounts? (yes/no): ')
 			while y_n.lower() not in ['yes', 'y', 'no', 'n']:
@@ -48,6 +51,9 @@ class manager(employee):
 
 			else:
 				print('\n\nNot Reactivated.')
+
+		else:
+			print('\n\n    This customer is alreeady active.')
 
 	def SeeDebtsToBank(self):
 		'''Will show the total of all the outstanding balances owed to the bank and by how many customers'''
