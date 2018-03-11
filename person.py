@@ -19,19 +19,16 @@ def make_routingNumber():
 	return routing_number
 
 class person():
+
 	customer_list = [] 		# Every instance of customer will be added to this list
-	past_customer_list = []
+	past_customer_list = [] 	# A manager can move a customer from the active customer list to the past customer list.
 
 	def __init__(self):
 		print('\n\n\n Welcome to I.L.L & Sons Bank!\n')
 
-		self.employee_permissions = False
-		self.manager_permissions = False
-		self.advisor_permissions = False
-
 		print("\nLet's set up the profile.")
 
-		'''Have user input person's name and check for valid entries'''
+		'''Have user input name and check for valid entries'''
 		self.first_name = input('\nFirst name: ')
 		while len(self.first_name) == 0 or not self.first_name.isalpha():		
 			self.first_name = input('Enter a valid first name: ')
@@ -46,10 +43,10 @@ class person():
 
 		self.name = '{} {} {}'.format(self.first_name, self.middle_name, self.last_name)
 
-		'''Have user input person's birthdate'''
+		
 		birthdate = input('\nDate of birth: mm/dd/YYYY: ')
 
-		'''Verify correct birthday format'''
+		'''Verify correct birthday format. dt.strptime() will raise an error until the correct format is used for the birthdate'''
 		valid_birthdate = False
 		while not valid_birthdate:
 			try:
@@ -84,10 +81,10 @@ class person():
 
 		self.address = '{} {}, {} {}'.format(self.street_address, self.city, self.state, self.zip_code)
 
-		'''Create a fake Social Security number for the person'''
+		'''Assign a fake Social Security number for the person'''
 		self.__ssn = make_ssn()
 		print('\nSSN is on file.')
 
 	def talk(self):
-		'''Person will talk and introduce themselves'''
+		'''Person will introduce themselves'''
 		raise NotImplementedError('Talk method for subclass has not been implemented yet')

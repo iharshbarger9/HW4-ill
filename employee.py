@@ -8,17 +8,17 @@ class employee(person):
 
 	def __init__(self):
 		person.__init__(self)
-		self.employee_permissions = True
 
 	def ShowCustomerInfo(self, other):
-		print( 'Customer: {}\nD.O.B: {}/{}/{}\nAddress: {}\nAccount Number: {}\nRoutingNumber: {}\nBalance: {}'.format(other.name, other.birthdate.month, other.birthdate.day, other.birthdate.year, other.address, str(other.account_number).zfill(12), other.routing_number, other.balance))
+		'''Prints a customer's personal and account information, but not their SSN.'''
+
+		if not other._customer__deleted_customer:
+			print( 'Customer: {}\n\nD.O.B: {}/{}/{}\n\nAddress: {}\n\nAccount Number: {}\n\nRoutingNumber: {}\n\nChecking Account Balance: {}'.format(other.name, other.birthdate.month, other.birthdate.day, other.birthdate.year, other.address, str(other.account_number).zfill(12), other.routing_number, other.balance))
 			
 	def DeleteCustomer(self, other):
+		'''Only managers can change a customer's status as active.'''
 		print('\nAction denied. Must be a manager to perform this action.')
 
 	def SeeCustomers(self):
+		'''For non-manager employees, this displays the number of customers the bank has.'''
 		print('\nNumber of customers: {}'.format(len(person.customer_list)))
-
-
-
-

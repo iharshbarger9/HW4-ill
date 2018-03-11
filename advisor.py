@@ -3,7 +3,7 @@ import random as r
 
 
 def make_interest_rate(amount, net_worth, period):
-	'''Returns I.L.L's interest rate on a loan.'''
+	'''Returns I.L.L's interest rate on a loan based on loan amount, net worth, and loan term. Ex: 4.123 '''
 	interest_rate = 1
 	relative = amount / net_worth
 
@@ -76,7 +76,7 @@ def make_interest_rate(amount, net_worth, period):
 		else:
 			interest_rate += 5.3
 
-	decrement = 0.312 - (0.3/50) * (period)
+	decrement = 0.312 - (0.3/50) * period		# The shorter the loan term, the more is taken off the interest rate.
 
 	interest_rate -= decrement
 
@@ -89,9 +89,9 @@ class advisor(employee):
 
 	def __init__(self):
 		employee.__init__(self)
-		self.advisor_permissions = True
 
 	def __offer_loan(self, other):
+		'''Advisor gives customer info about getting a loan with I.L.L & Sons and then offers them an interest rate for their proposed loan.'''
 		
 		amount = input("\n    You've chosen a great lender in I.L.L & Sons. How much would you like to borrow? The more you borrow relative to your net worth (current account balance + investment account balance - outstanding balance), the higher the interest rate will be. Also, shorter loan terms will result in lower interest rates. \n\nAmount: $")
 		
@@ -146,6 +146,7 @@ class advisor(employee):
 			print('\n    Okay. If you reconsider, please come back and we can talk again.')
 
 	def __open_investment_account(self, other):
+		'''Informs the customer about I.L.L & Sons' three investment options and gives them the option to invest in any or all of them.'''
 		
 		if other.balance < 1000:
 			print('\n\n\n\n    To open an investment account, you must have at least $1,000 in your account.')
@@ -224,7 +225,7 @@ class advisor(employee):
 
 
 					
-				elif choice == '2':
+				elif choice == '2': 	# Precious metal and gem fund
 					
 					return_rate = r.normalvariate(1.08, 0.05)
 
@@ -353,73 +354,82 @@ class advisor(employee):
 
 
 	def GiveAdvice(self, other):
-		print('\n    Hello, {}. I am your advisor {} {}.'.format(other.first_name, self.first_name, self.last_name))
-    
-		entry = input("\n\n     Let's discuss your financial options and goals. What would you like to discuss today?\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open or add to an investment account.\n\nEnter (3) to check your investment portfolio's performance.\n\nEnter (4) to say goodbye.\n\nEntry: ")
+		'''Advisor gives the customer the option between taking out a loan, making an investment or adding to existing ones, or checking up on their investments.'''
 
-		done = False
-		while not done:
-			if entry == '1':
-				self.__offer_loan(other)
-				y_n = input('\n    Will that be all for today, {}? (yes/no): '.format(other.first_name))
-				
-				while y_n not in ['yes', 'y', 'no', 'n']:
-					y_n = input('\n    Will that be all for today? (yes/no): ')
+		if not other._customer__deleted_customer:
 
-				if y_n.lower() in ['yes', 'y']:
-					print('\n    Nice seeing you today, {}.'.format(other.first_name))
-					done = True
-				elif y_n.lower() in ['no', 'n']:
-					entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
-				
-			elif entry == '2':
-				self.__open_investment_account(other)
-				y_n = input('\n    Will that be all for today, {}? (yes/no): '.format(other.first_name))
-				
-				while y_n not in ['yes', 'y', 'no', 'n']:
-					y_n = input('\n    Will that be all for today? (yes/no): ')
+			print('\n    Hello, {}. I am your financial advisor {} {}.'.format(other.first_name, self.first_name, self.last_name))
+	    
+			entry = input("\n\n     Let's discuss your financial options and goals. What would you like to discuss today?\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open or add to an investment account.\n\nEnter (3) to check your investment portfolio's performance.\n\nEnter (4) to say goodbye.\n\nEntry: ")
 
-
-				if y_n.lower() in ['yes', 'y']:
-					print('\n    Nice seeing you today, {}.'.format(other.first_name))
-					done = True
-				elif y_n.lower() in ['no', 'n']:
-					entry = input('\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
-
-			elif entry == '3':
-
-				if other.mutual_fund_acct_balance == 0 and other.metal_gem_fund_acct_balance == 0 and other.crypto_acct_balance == 0:
-					print('\n\n    You haven\'t invested with us, yet!\n')
-					entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
-
-				else:
-
-					if other.mutual_fund_acct_balance > 0:
-						other._customer__mfAccountStatus()
-
-					if other.metal_gem_fund_acct_balance > 0:
-						other._customer__mgfAccountStatus()
-
-					if other.crypto_acct_balance > 0:
-						other._customer__cryptoAccountStatus()
-
+			done = False
+			while not done:
+				if entry == '1':
+					self.__offer_loan(other)
 					y_n = input('\n    Will that be all for today, {}? (yes/no): '.format(other.first_name))
-				
-				while y_n not in ['yes', 'y', 'no', 'n']:
-					y_n = input('\n    Will that be all for today? (yes/no): ')
-          
-				if y_n.lower() in ['yes', 'y']:
-					print('\n    Nice seeing you today, {}.'.format(other.first_name))
-					done = True
-				elif y_n.lower() in ['no', 'n']:
-					entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+					
+					while y_n not in ['yes', 'y', 'no', 'n']:
+						y_n = input('\n    Will that be all for today? (yes/no): ')
 
-			elif entry == '4':
-				print('\n\n    Goodbye!')
-				done = True
-				
-			else:
-				entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
-				
+					if y_n.lower() in ['yes', 'y']:
+						print('\n    Nice seeing you today, {}.'.format(other.first_name))
+						done = True
+					elif y_n.lower() in ['no', 'n']:
+						entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+					
+				elif entry == '2':
+					self.__open_investment_account(other)
+					y_n = input('\n    Will that be all for today, {}? (yes/no): '.format(other.first_name))
+					
+					while y_n not in ['yes', 'y', 'no', 'n']:
+						y_n = input('\n    Will that be all for today? (yes/no): ')
+
+
+					if y_n.lower() in ['yes', 'y']:
+						print('\n    Nice seeing you today, {}.'.format(other.first_name))
+						done = True
+					elif y_n.lower() in ['no', 'n']:
+						entry = input('\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+
+				elif entry == '3':
+
+					if other.mutual_fund_acct_balance == 0 and other.metal_gem_fund_acct_balance == 0 and other.crypto_acct_balance == 0:
+						print('\n\n    You haven\'t invested with us, yet!\n')
+						entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+
+					else:
+
+						if other.mutual_fund_acct_balance > 0:
+							other._customer__mfAccountStatus()
+
+						if other.metal_gem_fund_acct_balance > 0:
+							other._customer__mgfAccountStatus()
+
+						if other.crypto_acct_balance > 0:
+							other._customer__cryptoAccountStatus()
+
+						y_n = input('\n    Will that be all for today, {}? (yes/no): '.format(other.first_name))
+					
+					while y_n not in ['yes', 'y', 'no', 'n']:
+						y_n = input('\n    Will that be all for today? (yes/no): ')
+	          
+					if y_n.lower() in ['yes', 'y']:
+						print('\n    Nice seeing you today, {}.'.format(other.first_name))
+						done = True
+					elif y_n.lower() in ['no', 'n']:
+						entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+
+				elif entry == '4':
+					print('\n\n    Goodbye!')
+					done = True
+					
+				else:
+					entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+					
+		else:
+
+			print('\n\n    {}, as you are no longer an active customer, I can\'t give you any advice right now.'.format(other.first_name))
+
 	def talk(self):
+		'''Financial advisor introduces themself.'''
 		print("Hello! I'm {} {}. I am a Financial Advisor at I.L.L. & Sons.".format(self.first_name, self.last_name))
