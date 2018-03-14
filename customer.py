@@ -56,21 +56,21 @@ class customer(person):
 		
 		estimated_return_rate = 1.067 	# Estimated annual return rate for mutual funds.
 
-		print('\n\n    Your current mutual fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.mutual_fund_acct_balance, '.2f'), estimated_return_rate, format(self.mutual_fund_acct_balance*return_rate, '.2f')))
+		print('\n\n    Your current mutual fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.mutual_fund_acct_balance, '.2f'), estimated_return_rate, format(self.mutual_fund_acct_balance*estimated_return_rate, '.2f')))
 
 	def __mgfAccountStatus(self):
 		'''Prints status of a customer's precious metal & gem fund investment account, if it has a balance. Tells them the estimated rate of return for this investment type.'''
 		
 		estimated_return_rate = 1.081	# Estimated annual return rate for this precious metal and gem fund.
 		
-		print('\n\n    Your current precious metal & gem fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.metal_gem_fund_acct_balance, '.2f'), estimated_return_rate, format(self.metal_gem_fund_acct_balance*return_rate, '.2f')))
+		print('\n\n    Your current precious metal & gem fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.metal_gem_fund_acct_balance, '.2f'), estimated_return_rate, format(self.metal_gem_fund_acct_balance*estimated_return_rate, '.2f')))
 	
 	def __cryptoAccountStatus(self):
 		'''Prints status of a customer's cryptocurrency investment account, if it has a balance. Tells them the estimated rate of return for this investment type.'''
 		
 		estimated_return_rate = 1.143	 # Estimated annual return rate for cryptocurrency investment.
 		
-		print('\n\n    Your current cryptocurrency account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.crypto_acct_balance, '.2f'), estimated_return_rate, format(self.crypto_acct_balance*return_rate, '.2f')))
+		print('\n\n    Your current cryptocurrency account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.crypto_acct_balance, '.2f'), estimated_return_rate, format(self.crypto_acct_balance*estimated_return_rate, '.2f')))
 		
 	def __str__(self):
 		'''String representation of a customer includes some basic personal information, account info, and financial info.'''
