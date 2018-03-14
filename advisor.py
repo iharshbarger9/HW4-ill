@@ -139,9 +139,10 @@ class advisor(employee):
 
 		if accept.lower() in ['yes', 'y']:
 			other.balance += amount
-			other.outstanding_balance += float(str(format((((1 + interest_rate / period / 100) ** period) * amount), '.2f')))
+			outstanding_balance = float(str(format((((1 + interest_rate / period / 100) ** period) * amount), '.2f')))
+			other.outstanding_balance += outstanding_balance
 			other._customer__CheckOutstandingBalance()
-			print('\n    Each year you will owe {} / {} = ${} on this loan'.format(format(other.outstanding_balance, '.2f'), period, format(other.outstanding_balance/period, '.2f')))
+			print('\n    Each year you will owe {} / {} = ${} on this loan'.format(format(outstanding_balance, '.2f'), period, format(outstanding_balance/period, '.2f')))
 		else:
 			print('\n    Okay. If you reconsider, please come back and we can talk again.')
 
