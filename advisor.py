@@ -91,7 +91,7 @@ class advisor(employee):
 		employee.__init__(self)
 
 	def __offer_loan(self, other):
-		'''Advisor gives customer info about getting a loan with I.L.L & Sons and then offers them an interest rate for their proposed loan.'''
+		'''Advisor gives customer info about getting a loan with I.L.L & Sons and then offers them an interest rate for their proposed loan. When a customer asks an advisor for advice, they have the option to call this function'''
 		
 		amount = input("\n    You've chosen a great lender in I.L.L & Sons. How much would you like to borrow? The more you borrow relative to your net worth (current account balance + investment account balance - outstanding balance), the higher the interest rate will be. Also, shorter loan terms will result in lower interest rates. \n\nAmount: $")
 		
@@ -146,7 +146,7 @@ class advisor(employee):
 			print('\n    Okay. If you reconsider, please come back and we can talk again.')
 
 	def __open_investment_account(self, other):
-		'''Informs the customer about I.L.L & Sons' three investment options and gives them the option to invest in any or all of them.'''
+		'''Informs the customer about I.L.L & Sons' three investment options and gives them the option to invest in any or all of them. When a customer asks an advisor for advice, they have the option to call this function'''
 		
 		if other.balance < 1000:
 			print('\n\n\n\n    To open an investment account, you must have at least $1,000 in your account.')
@@ -166,7 +166,8 @@ class advisor(employee):
 
 				if choice == '1':	# Mutual Fund
 
-					return_rate = r.normalvariate(1.067, 0.032)		# Estimated normal model for mutual fund has mean = 1.067% and std dev = 0.032%
+					return_rate = r.normalvariate(1.067, 0.032)		# Normal model with mean = 1.067 and standard deviation = 0.032 is the basis for the chances given to the customer when prompted to accept or decline the loan.
+					
 					y_n = input('\n\n    Our mutual fund consists of mostly S&P 500 stocks. Our expert fund managers predict that there is an 88% chance of earning at least 3% annually.\n\n    Want to invest in this? (yes/no): ')
 					
 					while y_n not in ['yes', 'y', 'no', 'n']:						
@@ -227,7 +228,7 @@ class advisor(employee):
 					
 				elif choice == '2': 	# Precious metal and gem fund
 					
-					return_rate = r.normalvariate(1.08, 0.05)
+					return_rate = r.normalvariate(1.081, 0.05)	## Normal model with mean = 1.081 and standard deviation = 0.05 is the basis for the chances given to the customer when prompted to accept or decline the loan.
 
 
 					y_n = input('\n\n    Our precious metal & gem fund is really benefitting from the recent discoveries. Fund managers predict that there is about a 1 in 3 chance of earning at least 10% on your investment annually.\n\n    Want to invest in this? (yes/no): ')
@@ -288,9 +289,8 @@ class advisor(employee):
 
 					
 				elif choice == '3':
-					return_rate = r.normalvariate(1.14, 0.12)
+					return_rate = r.normalvariate(1.143, 0.12)		# # Normal model with mean = 1.143 and standard deviation = 0.12 is the basis for the chances given to the customer when prompted to accept or decline the loan.
 					
-
 					y_n = input('\n\n    You\'ve probably seen the news lately. These cryptocurrencies are so unpredictable! Still, experts within the company predict you have about an 88% chance of breaking even, and a 47% chance of earning at least 15% annually.\n\n    Want to invest in this? (yes/no): ')
 					
 					while y_n not in ['yes', 'y', 'no', 'n']:						
@@ -354,7 +354,7 @@ class advisor(employee):
 
 
 	def GiveAdvice(self, other):
-		'''Advisor gives the customer the option between taking out a loan, making an investment or adding to existing ones, or checking up on their investments.'''
+		'''Advisor gives the customer the option between taking out a loan, opening an investment account or adding to an existing one, or checking up on their investment accounts.'''
 
 		if not other._customer__deleted_customer:
 
@@ -431,5 +431,12 @@ class advisor(employee):
 			print('\n\n    {}, as you are no longer an active customer, I can\'t give you any advice right now.'.format(other.first_name))
 
 	def talk(self):
-		'''Financial advisor introduces themself.'''
-		print("Hello! I'm {} {}. I am a Financial Advisor at I.L.L. & Sons.".format(self.first_name, self.last_name))
+		'''Financial advisor will say one of three greetings.'''
+		greeting = r.randint(1, 3)		# Randomly select a greeting to say
+
+		if greeting == 1:
+			print("Hello! I'm {} {}, a Financial Advisor at I.L.L. & Sons.".format(self.first_name, self.last_name))
+		elif greeting == 2:
+			print("Hi there! My name is {} {} and I am a Financial Advisor here at I.L.L. & Sons. I could help you with your financial planning".format(self.first_name, self.last_name))
+		elif greeting == 3:
+			print("Hi, I'm {} {}. I graduated from Penn State a few years ago, but now I am a Financial Advisor at I.L.L. & Sons.".format(self.first_name, self.last_name))

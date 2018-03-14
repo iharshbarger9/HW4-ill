@@ -3,20 +3,13 @@ import random as r
 from datetime import datetime as dt
 
 def make_ssn():
-	'''Creates and returns a fake Social Security Number Ex: 123-45-6789'''
+	'''Creates and returns a fake Social Security Number as a string Ex: 123-45-6789'''
 	ssn = ''
 	for x in range(9):
 		if x in [3, 5]:
 			ssn += '-'
 		ssn += str(r.randint(0, 9))
 	return ssn
-
-def make_routingNumber():
-	'''Creates and returns a fake routing number Ex: 123456789'''
-	routing_number = ''
-	for n in range(9):
-		routing_number += str(r.randint(0, 9))
-	return routing_number
 
 class person():
 
@@ -86,5 +79,5 @@ class person():
 		print('\nSSN is on file.')
 
 	def talk(self):
-		'''Person will introduce themselves'''
-		raise NotImplementedError('Talk method for subclass has not been implemented yet')
+		'''Person object cannot introduce themselves, so error is raised.'''
+		raise NotImplementedError('Talk method for person class has no implementation.')

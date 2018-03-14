@@ -1,8 +1,14 @@
 from person import person
-from person import make_routingNumber
 from person import make_ssn
 import random as r
 from datetime import datetime as dt
+
+def make_routingNumber():
+	'''Creates and returns a fake routing number for a checking account as a string Ex: 123456789'''
+	routing_number = ''
+	for n in range(9):
+		routing_number += str(r.randint(0, 9))
+	return routing_number
 
 class customer(person):
 	customer_number = 0
@@ -10,18 +16,18 @@ class customer(person):
 
 	def __init__(self):
 		person.__init__(self)
-		self.account_number = customer.customer_number + customer.acct_number_addition		# Fake account number and routing number are made and assigned
+		customer.customer_number += 1
+		self.customer_number = customer.customer_number
+		self.account_number = customer.customer_number + customer.acct_number_addition		# Fake account number is created made and assigned
 		self.routing_number = make_routingNumber()
 		self.balance = 0
-		self.customer_number = customer.customer_number
 		self.mutual_fund_acct_balance = 0
 		self.metal_gem_fund_acct_balance = 0
 		self.crypto_acct_balance = 0
 		self.outstanding_balance = 0
-		customer.customer_number += 1
 		customer.acct_number_addition += r.randint(10, 50)
 		person.customer_list.append(self)
-		self.__deleted_customer = False				# Set to true if the manager deletes a customer. True value disables atm abilities.
+		self.__deleted_customer = False				# Set to true only if the manager deletes a customer. True value disables bank privileges.
 		
 		print('\nChecking account has been opened for {}.'.format(self.name))
 
@@ -35,38 +41,43 @@ class customer(person):
 		while not done:	
 			try:
 				deposit = float(deposit)
-				if deposit > 0:
+				if deposit > 10:
 					self.balance += deposit
 					done = True
 				else:
-					deposit = input('\nEnter a positive amount to deposit: $')
+					deposit = input('\nEnter an amount over $10 to deposit: $')
 			except:
 				deposit = input('\nEnter a valid amount to deposit: $')
 
 		print('\nDone.\n')
 
 	def __mfAccountStatus(self):
-		'''Gives status of a customer's mutual fund investments, if they exist. Tells them the estimated rate of return for their investment type.'''
-		return_rate = r.normalvariate(1.067, 0) # 0.032 = std_dev
+		'''Prints status of a customer's mutual fund investment account, if it has a balance. Tells them the estimated rate of return for this investment type.'''
+		
+		estimated_return_rate = 1.067 	# Estimated annual return rate for mutual funds.
 
-		print('\n\n    Your current mutual fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.mutual_fund_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.mutual_fund_acct_balance*return_rate, '.2f')))
+		print('\n\n    Your current mutual fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.mutual_fund_acct_balance, '.2f'), estimated_return_rate, format(self.mutual_fund_acct_balance*return_rate, '.2f')))
 
 	def __mgfAccountStatus(self):
-		'''Gives status of a customer's precious metal & gem fund investments, if they exist. Tells them the estimated rate of return for their investment type.'''
-		return_rate = r.normalvariate(1.08, 0) 	# 0.05 = std_dev
-		print('\n\n    Your current precious metal & gem fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.metal_gem_fund_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.metal_gem_fund_acct_balance*return_rate, '.2f')))
+		'''Prints status of a customer's precious metal & gem fund investment account, if it has a balance. Tells them the estimated rate of return for this investment type.'''
+		
+		estimated_return_rate = 1.081	# Estimated annual return rate for this precious metal and gem fund.
+		
+		print('\n\n    Your current precious metal & gem fund account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.metal_gem_fund_acct_balance, '.2f'), estimated_return_rate, format(self.metal_gem_fund_acct_balance*return_rate, '.2f')))
 	
 	def __cryptoAccountStatus(self):
-		'''Gives status of a customer's cryptocurrency investments, if they exist. Tells them the estimated rate of return for their investment type.'''
-		return_rate = r.normalvariate(1.14, 0) 	 # 0.12 = std_dev
-		print('\n\n    Your current cryptocurrency account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.crypto_acct_balance, '.2f'), format(return_rate, '.2f'), format(self.crypto_acct_balance*return_rate, '.2f')))
+		'''Prints status of a customer's cryptocurrency investment account, if it has a balance. Tells them the estimated rate of return for this investment type.'''
+		
+		estimated_return_rate = 1.143	 # Estimated annual return rate for cryptocurrency investment.
+		
+		print('\n\n    Your current cryptocurrency account balance is ${}. With an estimated return rate of {}%, after this year, your balance should be about ${}.'.format(format(self.crypto_acct_balance, '.2f'), estimated_return_rate, format(self.crypto_acct_balance*return_rate, '.2f')))
 		
 	def __str__(self):
-		'''Prints a customer's personal information'''
+		'''String representation of a customer includes some basic personal information, account info, and financial info.'''
 		return 'Customer: {}\n\nD.O.B: {}/{}/{}\n\nAddress: {}\n\nAccount Number: {}\n\nRoutingNumber: {}\n\nChecking Balance: {}\n\nNet Worth: ${}'.format(self.name, self.birthdate.month, self.birthdate.day, self.birthdate.year, self.address, str(self.account_number).zfill(12), self.routing_number, self.balance, format(self.balance + self.crypto_acct_balance + self.mutual_fund_acct_balance + self.metal_gem_fund_acct_balance, '.2f'))
 
 	def __deposit(self):
-		'''Helps customer make a deposit to their checking account.'''
+		'''Customer can make a deposit to their checking account. This function is called when visiting an ATM or by a teller'''
 		deposit = input('\nAmount to deposit: $')
 		
 		done = False
@@ -85,7 +96,7 @@ class customer(person):
 		print('\nNew balance: $%.2f' % self.balance)
 
 	def __withdrawal(self):
-		'''Helps customers make a withdrawal from their checking account.'''
+		'''Customers can make a withdrawal from their checking account. This function is called when visiting an ATM or by a teller'''
 		self.__check_balance()
 		amount = input('\nAmount to withdraw: $')
 
@@ -108,7 +119,7 @@ class customer(person):
 		print('\nNew balance: $%.2f' % self.balance)	
 
 	def __check_balance(self):
-		'''Prints the balance of a customer's checking account.'''
+		'''Prints the balance of a customer's checking account. Called either at an ATM or by a teller'''
 		print('\n\nChecking Account Balance: $%.2f' % self.balance)
 
 	def __CheckOutstandingBalance(self):
@@ -125,7 +136,7 @@ class customer(person):
 			pin = input('\nEnter your pin: ')
 			incorrect_attempts = 0
 			access_granted = False
-			while not access_granted and incorrect_attempts <= 3:
+			while not access_granted and incorrect_attempts < 3:
 				if pin == self.__pin:
 					access_granted = True			# The only way for access to be granted is for the pin to be entered correctly within the first 3 tries
 				else:
@@ -193,4 +204,8 @@ class customer(person):
 
 	def talk(self):
 		'''A customer will introduce themself by name.'''
-		print("Hello! I'm {}".format(self.first_name))
+		greeting = r.randint(1, 2)		# Pick a random greeting
+		if greeting == 1:
+			print("Hello. I'm {} {}. I chose I.L.L & Sons because it has that classic, hometown bank feel".format(self.first_name, self.last_name))
+		elif greeting == 2:
+			print("Hey. My name\'s' {}.".format(self.first_name))
