@@ -395,7 +395,7 @@ class advisor(employee):
 				elif entry == '3':
 
 					if other.mutual_fund_acct_balance == 0 and other.metal_gem_fund_acct_balance == 0 and other.crypto_acct_balance == 0:
-						print('\n\n    You haven\'t invested with us, yet!\n')
+						print('\n\n    Your investment accounts are empty right now!\n')
 						entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
 
 					else:
@@ -411,14 +411,14 @@ class advisor(employee):
 
 						y_n = input('\n    Will that be all for today, {}? (yes/no): '.format(other.first_name))
 					
-					while y_n not in ['yes', 'y', 'no', 'n']:
-						y_n = input('\n    Will that be all for today? (yes/no): ')
-	          
-					if y_n.lower() in ['yes', 'y']:
-						print('\n    Nice seeing you today, {}.'.format(other.first_name))
-						done = True
-					elif y_n.lower() in ['no', 'n']:
-						entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
+						while y_n not in ['yes', 'y', 'no', 'n']:
+							y_n = input('\n    Will that be all for today? (yes/no): ')
+		          
+						if y_n.lower() in ['yes', 'y']:
+							print('\n    Nice seeing you today, {}.'.format(other.first_name))
+							done = True
+						elif y_n.lower() in ['no', 'n']:
+							entry = input('\n\nEnter (1) to discuss a loan.\n\nEnter (2) to open an investment account.\n\nEnter (3) to check your investment portfolio.\n\nEnter (4) to say goodbye\n\nEntry: ')
 
 				elif entry == '4':
 					print('\n\n    Goodbye!')

@@ -27,7 +27,7 @@ class manager(employee):
 				y_n = input('\n\n    Delete? (yes/no): ')
 			if y_n.lower() in ['yes', 'y']:
 				print('\nDeleting...')
-				person.past_customer_list.append(person.customer_list.pop(other.customer_number))
+				person.past_customer_list.append(person.customer_list.pop(other.customer_number - 1))
 				other._customer__deleted_customer = True
 				print('\n\nDone.')
 			else:
@@ -39,7 +39,7 @@ class manager(employee):
 	def ReactivateCustomer(self, other):
 		'''Reactivates a deleted customer by moving him/her from the past customer list to the active customer list. This re-enables their customer abilities.'''
 		if other._customer__deleted_customer:
-			y_n = input('\n\n    Reactivate {}\'s accounts? (yes/no): ')
+			y_n = input('\n\n    Reactivate {}\'s accounts? (yes/no): '.format(other.name))
 			while y_n.lower() not in ['yes', 'y', 'no', 'n']:
 				y_n = input('\n\n    Reactivate? (yes/no): ')
 			if y_n in ['yes', 'y']:

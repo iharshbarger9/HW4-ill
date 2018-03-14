@@ -78,7 +78,7 @@ class teller(employee):
 
 		else:
 
-			print('\n\n    {}, your accounts with us are not active. To reactivate them, you can contact a manager.')
+			print('\n\n    {}, your accounts with us are not active. To reactivate them, you can contact a manager.'.format(other.first_name))
 
 	def __TransferFromInvestmentAccount(self, other):
 		'''Helps the customer transfer funds from an investment account to their checking account, for a %5 fee. Called when a customer selects this option with a teller'''
@@ -197,7 +197,7 @@ class teller(employee):
 							other.balance -= payment
 							other.outstanding_balance -= payment
 							print('\n\n    Thank you for the payment!')
-							print('\n\nNew Outstanding Balance: ${}\nNew Checking Account Balance: ${}'.format(other.outstanding_balance, other.balance))
+							print('\n\nNew Outstanding Balance: ${}\nNew Checking Account Balance: ${}'.format(format(other.outstanding_balance, '.2f'), format(other.balance, '.2f')))
 							done = True
 							
 						elif payment > other.balance:
