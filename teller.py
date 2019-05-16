@@ -1,6 +1,8 @@
 from employee import *
 import random as r
 
+print("teller change")
+
 class teller(employee):
 	def __init__(self):
 		employee.__init__(self)
