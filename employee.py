@@ -4,6 +4,8 @@ from person import make_ssn
 import random as r
 from datetime import datetime as dt
 
+print("Employee change")
+
 class employee(person):
 
 	def __init__(self):
