@@ -1,6 +1,8 @@
 from employee import *
 import random as r
 
+# THIS IS purposeful
+
 class manager(employee):
 
 	def __init__(self):

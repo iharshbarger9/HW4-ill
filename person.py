@@ -2,6 +2,8 @@
 import random as r
 from datetime import datetime as dt
 
+print("person change")
+
 def make_ssn():
 	'''Creates and returns a fake Social Security Number as a string Ex: 123-45-6789'''
 	ssn = ''
